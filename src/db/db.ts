@@ -21,8 +21,8 @@ class DB {
 
       initModels(this.connection);
 
-      // CHOOSE YOUR DEMONS
-      // await this.connection.sync({});
+      // CHOOSE YOUR DEMONS 
+      await this.connection.sync({});
       // await this.connection.sync({ force: true });
       // await this.connection.sync({ alter: true });
 

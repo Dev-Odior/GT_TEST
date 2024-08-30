@@ -10,4 +10,5 @@ export interface UserAttributeI {
   email: string;
   password: string;
   role: Role;
+  isVerified: boolean;
 }

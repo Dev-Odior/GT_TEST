@@ -7,11 +7,10 @@ import authService from '@src/services/auth.service';
 class AuthController {
   public async register(req: Request, res: Response, next: NextFunction) {
     try {
-      const data = await authService.register(req.body);
+      await authService.register(req.body);
 
       res.status(StatusCodes.OK).json({
-        message: 'User created Successfully',
-        data,
+        message: 'Account Created Successful, Check Mail to Verify Password',
       });
     } catch (error) {
       serverConfig.DEBUG(

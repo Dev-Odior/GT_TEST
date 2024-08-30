@@ -9,6 +9,8 @@ class ServerConfig {
   public PORT = process.env.PORT ? parseInt(process.env.PORT) : 3009;
 
   public DEBUG = this.NODE_ENV === 'development' ? debug('dev') : console.log;
+
+  public RABBIT_MQ = process.env.RABBIT_MQ;
 }
 
 export default new ServerConfig();

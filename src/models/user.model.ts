@@ -11,6 +11,7 @@ import {
 import { Role } from '@src/interfaces/user.interface';
 
 import BCRYPTHelper from '@src/utils/helpers/bcrypt.helper';
+import { allow } from 'joi';
 
 export class User
   extends Model<InferAttributes<User>, InferCreationAttributes<User>>
@@ -21,6 +22,7 @@ export class User
   declare password: string;
   declare role: Role;
   declare email: string;
+  declare isVerified: boolean;
 }
 
 export const init = (sequelize: Sequelize) => {
@@ -50,6 +52,11 @@ export const init = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
+      },
+      isVerified: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
     },
     {

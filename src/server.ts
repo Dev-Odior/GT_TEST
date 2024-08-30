@@ -14,6 +14,8 @@ import routers from './routers';
 import db from './db/db';
 import systemMiddleware from './middleware/system.middleware';
 
+import notificationClient from './clients/notification.client';
+
 class App {
   private app: Application;
   private server!: Server;
@@ -70,6 +72,9 @@ class App {
   }
 
   public async start() {
+    // THIS WOULD CONNECT TO THE QUEUE IT IS SENDING QUERY TOO //
+    notificationClient.init();
+
     this.server = this.app.listen(this.port, () => {
       serverConfig.DEBUG(`Server is listening at port ${this.port}`);
     });
@@ -83,6 +88,7 @@ class App {
           resolve();
         });
 
+        await notificationClient.close();
         await db.disconnectDB();
         serverConfig.DEBUG(`Server shutdown successful`);
       }

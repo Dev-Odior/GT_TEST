@@ -1,6 +1,5 @@
 class CustomError extends Error {
   public _message: string;
-
   private _code:number
   private _errors: unknown[];
 

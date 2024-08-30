@@ -5,7 +5,18 @@ import userService from './user.service';
 import { BadRequestError } from '@src/error';
 import tokenService from './token.service';
 
+import notificationClient from '@src/clients/notification.client';
+
+import serverConfig from '@src/config/server.config';
+
+import { EmailAttributeI } from '@src/interfaces/email.inteface';
+
 class AuthService {
+  public async removePassword(data: User) {
+    const { password, ...others } = data.toJSON();
+    return { others };
+  }
+
   public async register(data: User) {
     const { email, username } = data;
 
@@ -19,7 +30,18 @@ class AuthService {
 
     const token = tokenService.generateAccessToken(newUser);
 
-    return { user: newUser, token };
+    const verifyLink = `http://localhost:${serverConfig.PORT}/?uid=${newUser.id}&token=${token}&email=${email}`;
+
+    const emailPayload: EmailAttributeI = {
+      to: email,
+      subject: 'Verify your email',
+      templateName: 'verifyAccount',
+      replacements: { userName: username, email, verifyLink },
+    };
+
+    await notificationClient.sendNotification('mail', emailPayload);
+
+    return { user: true };
   }
 
   public async login(data: User) {
